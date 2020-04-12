@@ -1,7 +1,6 @@
 import React from "react";
 import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
-import todoList from "./components/Todo";
 import activityList from "./components/Data";
 
 // class App extends Component {
@@ -13,14 +12,63 @@ export default class App extends React.Component {
     super();
     this.state = {
       todo: activityList,
-      task: "",
-      id: "",
-      completed: "",
+
     };
   }
+
+  addItem = (e, task) => {
+    console.log("First Groceries: ", this.state.todo);
+    e.preventDefault();
+
+    const newTask = {
+      name: task,
+      id: Date.now(),
+      completed: false
+    };
+
+    this.setState({
+      todo: [...this.state.todo, newTask]
+    });
+    // console.log("Another task: ", this.state.todo);
+  };
+
+  // Class methods to update state
+  toggleItem = taskId => {
+    // console.log(itemId);
+
+    this.setState({
+      todo: this.state.todo.map(theTask => {
+        // for bananas
+        // checks itemId against the id of bananas obj
+        if (taskId === theTask.id) {
+          // if they match, update the purchased boolean on that item
+          return {
+            ...theTask,
+            completed: !theTask.completed
+          };
+          // this return generates the following obj:
+          // { id: 123, name: "Bananas", purchased: true}
+        }
+
+        // if they don't match, just return the item
+        return theTask;
+      })
+    });
+  };
+
+  taskCompleted = e => {
+    e.preventDefault();
+
+    this.setState({
+      todo: this.state.todo.filter(item => !item.todo)
+    });
+  };
+
   render() {
     return (
       <div>
+        {/* <TodoForm/>
+        <TodoList/> */}
         <TodoForm
           value={this.state.todo}
         />

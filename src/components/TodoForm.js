@@ -1,13 +1,41 @@
 import React from "react";
 
-export default function TodoForm(props) {
-  return (
-    <form>
-      <input name="task" value={props.value} placeholder="Task To Do" />
-      <button>Add Todo</button>
-      <button>Clear Completed</button>
-    </form>
-  );
+export default class TodoForm extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      toDo: "",
+    };
+  }
+
+  handleChanges = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  submitTodo = (event) => {
+    event.preventDefault();
+
+    this.setState({ toDo: "" });
+    this.props.addItem(event, this.state.toDo);
+  };
+
+  render() {
+    return (
+      <div>
+        {/* <form onSubmit={this.submitTodo}> */}
+        <form>
+          <input
+            name="task"
+            value={this.state.toDo}
+            onChange={this.handleChanges}
+            placeholder="What to do?"
+          />
+          <button>To Do</button>
+          
+        </form>
+      </div>
+    );
+  }
 }
 
 // <form>

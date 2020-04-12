@@ -1,27 +1,14 @@
-import React from "react";
+import React from 'react';
+import Todo from './Todo';
 
-function TodoList(props) {
+export default function TodoList(props) {
   return (
     <div>
-      <p>
-        <strong>Task:</strong> {props.todo.task}
-      </p>
-      <p>
-        <strong>ID:</strong> {props.todo.id}
-      </p>
-      <p>
-        <strong>Completed Task:</strong> {props.todo.completed}
-      </p>
+      {/* {props.todo.map(doo => (
+        <Todo key={doo.id} toDo={doo} toggleToDo={props.toggleToDo}/>
+      ))} */}
+
+      <button className='clear-btn' onClick={props.taskCompleted}>Task Completed</button>
     </div>
-  );
+  )
 }
-
-export default TodoList;
-
-// {props.todos.map(todo => (
-//   <Todo
-//     handleToggleComplete={props.handleToggleComplete}
-//     key={todo.id}
-//     todo={todo}
-//   />
-// ))}
