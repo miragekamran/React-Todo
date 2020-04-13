@@ -1,83 +1,70 @@
-import React from "react";
-import task from './components/Data';
+import React from 'react';
+import { Data } from './data.js';
+import { TodoList, TodoForm } from './components';
 
-import TodoList from './components/TodoList';
-import TodoForm from './components/TodoForm';
-import './components/Todo.css';
-
-export default class App extends React.Component {
-  // Constructor with state
+class App extends React.Component {
+  // you will need a place to store your state in this component.
+  // design `App` to be the parent component of your application.
+  // this component is going to take care of state, and any change handlers you need to work with your state
   constructor() {
     super();
     this.state = {
-      // this is the same as tasks: tasks
-      tasks: task,
-    };
+      todo: Data()
+    }
   }
 
-  addTask = (e, item) => {
-    console.log("First tasks: ", this.state.tasks);
+  addTask = (e, task) => {
+    console.log(this.state.todo);
     e.preventDefault();
 
     const newTask = {
-      name: item,
+      task: task,
       id: Date.now(),
-      purchased: false
-    };
+      completed: false
+    }
 
     this.setState({
-      tasks: [...this.state.tasks, newTask]
+      todo: [...this.state.todo, newTask]
     });
-    console.log("Second tasks: ", this.state.tasks);
-  };
+  }
 
-  // Class methods to update state
-  toggleItem = taskId => {
-    console.log(taskId);
-
+  toggleTask = taskId => {
     this.setState({
-      tasks: this.state.tasks.map(item => {
-        // for bananas
-        // checks taskId against the id of bananas obj
-        if (taskId === item.id) {
-          // if they match, update the purchased boolean on that item
+      todo: this.state.todo.map(task => {
+        if (taskId === task.id) {
           return {
-            ...item,
-            purchased: !item.purchased
-          };
-          // this return generates the following obj:
-          // { id: 123, name: "Bananas", purchased: true}
+            ...task,
+            completed: !task.completed
+          }
         }
 
-        // if they don't match, just return the item
-        return item;
+        return task;
       })
     });
-  };
+  }
 
-  clearPurchased = e => {
-    e.preventDefault();
-
+  clearCompleted = () => {
     this.setState({
-      tasks: this.state.tasks.filter(item => !item.purchased)
-    });
-  };
+      todo: this.state.todo.filter(task => task.completed === false)
+    })
+  }
+
+  clearAll = () => {
+    this.setState({
+      todo: []
+    })
+  }
 
   render() {
-    // rendering is what gets put on the screen
-    // the class App shows ListForm and GroceryList on the screen
     return (
-      <div className="App">
-        <div className="header">
-          <h1>My Tasks</h1>
-          <TodoForm addTask={this.addTask} />
-        </div>
-        <TodoList
-          tasks={this.state.tasks}
-          toggleItem={this.toggleItem}
-          clearPurchased={this.clearPurchased}
-        />
+      <div>
+        <h2>Welcome to your Todo App!</h2>
+        <TodoForm addTask={this.addTask} />
+        <br />
+        <TodoList todo={this.state.todo} toggle={this.toggleTask} completed={this.clearCompleted} clearAll={this.clearAll} />
       </div>
     );
   }
 }
+
+export default App;

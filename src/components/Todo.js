@@ -1,15 +1,19 @@
-import React from "react";
+import React from 'react';
 
 const Todo = props => {
-  console.log("Item Props:", props);
-  return (
-    <div
-      className={`item${props.item.purchased ? " purchased" : ""}`}
-      onClick={() => props.toggleItem(props.item.id)}
-    >
-      <p>{props.item.name}</p>
-    </div>
-  );
-};
+    const completed = {
+        textDecoration: 'line-through'
+    }
+
+    const incomplete = {
+        textDecoration: 'none'
+    }
+
+    return(
+        <div>
+            <h2 style={props.thing.completed ? completed : incomplete } onClick={() => props.toggle(props.thing.id)} >{props.thing.task}</h2>
+        </div>
+    )
+}
 
 export default Todo;
